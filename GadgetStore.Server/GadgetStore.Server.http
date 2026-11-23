@@ -1,0 +1,6 @@
+@GadgetStore.Server_HostAddress = http://localhost:5038
+
+GET {{GadgetStore.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
