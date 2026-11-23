@@ -2119,3 +2119,5 @@ button {
             grid-column: 1 !important;
         }
 }
+
+body::before { content: 'GadgetStore - Winter Sale -20%'; display: block; background: #e63946; color: #fff; text-align: center; padding: 12px; font-weight: bold; }
