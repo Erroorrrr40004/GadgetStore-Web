@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GadgetStore — проектный прототип</title>
+<style>
+:root{--bg:#0b1220;--panel:#111c2e;--panel2:#17263d;--text:#eef4ff;--muted:#9fb0c7;--accent:#65a7ff;--line:#263953}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Arial,sans-serif}
+header{position:sticky;top:0;background:#0b1220ed;border-bottom:1px solid var(--line);padding:16px 4vw;z-index:3}
+.brand{font-size:22px;font-weight:800;letter-spacing:1px}.brand span{color:var(--accent)}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}button,.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:9px 13px;border-radius:9px;cursor:pointer}
+button:hover,.tab.active{background:var(--accent);color:#061326;border-color:var(--accent)}
+main{max-width:1180px;margin:28px auto;padding:0 20px}.screen{display:none}.screen.active{display:block}
+h1{font-size:32px;margin:0 0 8px}h2{margin-top:28px}.muted{color:var(--muted)}.hero{padding:34px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(120deg,#152b49,#101b2c)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px}.price{font-size:20px;font-weight:700;color:#9bc6ff}
+.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#1d3553;color:#b8d8ff;font-size:12px}
+input,select{padding:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.wide{width:min(100%,420px)}table{width:100%;border-collapse:collapse;background:var(--panel);border-radius:10px;overflow:hidden}td,th{padding:11px;border-bottom:1px solid var(--line);text-align:left}th{color:#a9ccff}
+footer{color:var(--muted);padding:35px;text-align:center}@media(max-width:600px){h1{font-size:25px}.hero{padding:22px}header{padding:13px}}
+</style></head><body>
+<header><div class="brand">GADGET<span>STORE</span> <small class="muted">/ project concept</small></div>
+<nav id="nav"></nav></header><main>
+<section class="screen active" id="home"><div class="hero"><span class="tag">Персональная витрина</span><h1>Технологии, подобранные под ваши задачи</h1><p class="muted">Каталог электроники и рекомендации, которые учитывают интересы, историю действий и наличие товаров.</p><div class="row"><button onclick="show('catalog')">Перейти в каталог</button><button onclick="show('preferences')">Настроить предпочтения</button></div></div><h2>Рекомендуем для вас</h2><div class="grid" id="homeProducts"></div></section>
+<section class="screen" id="catalog"><h1>Каталог</h1><p class="muted">Поиск, категории и фильтрация учебного каталога.</p><div class="row"><input id="search" class="wide" placeholder="Найти товар..." oninput="renderCatalog()"><select id="category" onchange="renderCatalog()"><option value="">Все категории</option></select></div><div class="grid" id="catalogProducts"></div></section>
+<section class="screen" id="searchscreen"><h1>Поиск и фильтры</h1><p>Выберите категорию и ценовой диапазон. Результаты обновляются без перезагрузки.</p><div class="row"><select id="quickcat"><option>Смартфоны</option><option>Компьютеры</option><option>Периферия</option><option>Аудио</option></select><input type="number" placeholder="Цена до, ₸" id="maxprice"><button onclick="quickSearch()">Найти</button></div><div id="searchResult" class="grid"></div></section>
+<section class="screen" id="product"><h1>Карточка товара</h1><div class="card"><span class="tag">Пример карточки</span><h2>NovaTech Ноутбук 01</h2><p class="muted">Подробные характеристики, наличие, варианты и объяснение рекомендации.</p><div class="price">99 900 ₸</div><p>В наличии · Гарантия · Доставка</p><button onclick="addCart()">Добавить в корзину</button></div><h2>Похожие и совместимые товары</h2><div class="grid" id="related"></div></section>
+<section class="screen" id="cart"><h1>Корзина</h1><div id="cartContent" class="card">Корзина пока пуста.</div><h2>Часто покупают вместе</h2><div class="grid" id="cartRecs"></div></section>
+<section class="screen" id="checkout"><h1>Оформление заказа</h1><div class="card"><p>Демонстрационная форма заказа — без реального платежа.</p><div class="row"><input placeholder="Имя получателя"><input placeholder="Телефон"></div><p><select><option>Доставка курьером</option><option>Самовывоз</option></select> <select><option>Оплата при получении</option><option>Онлайн (демо)</option></select></p><button onclick="alert('Демонстрационный заказ сформирован')">Подтвердить заказ (демо)</button></div></section>
+<section class="screen" id="auth"><h1>Вход / регистрация</h1><div class="card"><p class="muted">Макет формы. Реальная авторизация выполняется сервером существующего проекта.</p><p><input class="wide" placeholder="Электронная почта"></p><p><input class="wide" type="password" placeholder="Пароль"></p><button onclick="alert('Это макет: подключите существующий модуль авторизации')">Войти</button> <button onclick="alert('Это макет регистрации')">Создать аккаунт</button></div></section>
+<section class="screen" id="account"><h1>Личный кабинет</h1><div class="grid"><div class="card"><h3>История покупок</h3><p class="muted">Заказы, статусы и повтор покупки.</p></div><div class="card"><h3>Избранное</h3><p class="muted">Сохранённые товары.</p></div><div class="card"><h3>Мои рекомендации</h3><p class="muted">Подборка на основе истории.</p></div></div></section>
+<section class="screen" id="preferences"><h1>Управление предпочтениями</h1><p class="muted">Учебная настройка профиля покупателя.</p><div class="card" id="prefControls"></div><p><label><input type="checkbox" id="personalization" checked> Разрешить персональные рекомендации</label></p><button onclick="savePrefs()">Сохранить предпочтения</button><div id="prefMsg" class="muted"></div></section>
+<section class="screen" id="admin"><h1>Панель администратора</h1><div class="grid"><div class="card"><h3>Каталог</h3><p>200 учебных позиций</p></div><div class="card"><h3>Остатки</h3><p>Контроль доступности товаров</p></div><div class="card"><h3>Аналитика</h3><p>События, группы, рекомендации</p></div></div><table><tr><th>Модуль</th><th>Действие</th><th>Доступ</th></tr><tr><td>Товары</td><td>Добавление и изменение</td><td>Администратор</td></tr><tr><td>Остатки</td><td>Обновление количества</td><td>Администратор</td></tr><tr><td>События</td><td>Просмотр агрегатов</td><td>Администратор</td></tr></table></section>
+</main><footer>GadgetStore · Учебный интерактивный прототип · Все данные демонстрационные</footer>
+<script>
+const names=['Главная','Каталог','Поиск','Карточка','Корзина','Оформление','Вход','Кабинет','Предпочтения','Админ-панель'];
+const ids=['home','catalog','searchscreen','product','cart','checkout','auth','account','preferences','admin'];
+document.getElementById('nav').innerHTML=names.map((n,i)=>`<button class="tab ${i===0?'active':''}" onclick="show('${ids[i]}',this)">${n}</button>`).join('');
+const sample=Array.from({length:24},(_,i)=>({name:['Ноутбук NovaTech','Смартфон Astra','Монитор Vertex','Наушники Pulse','SSD Orion','Клавиатура Nexon'][i%6]+' '+(i+1),cat:['Компьютеры','Смартфоны','Периферия','Аудио','Хранение данных','Периферия'][i%6],price:12900+(i*731)%190000,stock:i%7}));
+let cart=0;
+function show(id,btn){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');else [...document.querySelectorAll('.tab')].find(x=>x.textContent===names[ids.indexOf(id)])?.classList.add('active');}
+function card(p){return `<div class="card"><span class="tag">${p.cat||'Подборка'}</span><h3>${p.name||p}</h3><p class="price">${(p.price||45900).toLocaleString('ru-RU')} ₸</p><p class="muted">${p.stock===0?'Нет в наличии':'В наличии'}</p><button onclick="show('product')">Подробнее</button></div>`}
+function renderCatalog(){let q=(document.getElementById('search').value||'').toLowerCase(),c=document.getElementById('category').value;document.getElementById('catalogProducts').innerHTML=sample.filter(p=>(!q||p.name.toLowerCase().includes(q))&&(!c||p.cat===c)).map(card).join('')}
+function quickSearch(){let c=document.getElementById('quickcat').value,m=Number(document.getElementById('maxprice').value||9999999);document.getElementById('searchResult').innerHTML=sample.filter(p=>p.cat===c&&p.price<=m).map(card).join('')||'Ничего не найдено'}
+function addCart(){cart++;document.getElementById('cartContent').innerHTML=`В корзине: ${cart} демонстрационный товар(а). <button onclick="show('checkout')">Оформить</button>`;show('cart')}
+function savePrefs(){document.getElementById('prefMsg').textContent='Настройки обновлены в демонстрационном интерфейсе.'}
+document.getElementById('category').innerHTML+=[...new Set(sample.map(p=>p.cat))].map(c=>`<option>${c}</option>`).join('');
+document.getElementById('homeProducts').innerHTML=sample.slice(0,4).map(card).join('');
+document.getElementById('catalogProducts').innerHTML=sample.slice(0,12).map(card).join('');
+document.getElementById('related').innerHTML=sample.slice(4,8).map(card).join('');
+document.getElementById('cartRecs').innerHTML=sample.slice(8,12).map(card).join('');
+document.getElementById('prefControls').innerHTML=['Смартфоны','Компьютеры','Игровые устройства','Производительность','Портативность','Бюджетность'].map(x=>`<p>${x} <input type="range" min="0" max="100" value="65"></p>`).join('');
+</script></body></html>
