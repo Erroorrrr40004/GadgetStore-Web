@@ -36,7 +36,7 @@
 
 UI/UX дизайн проекта GadgetStore:
 
-[Открыть проект в Figma](ВСТАВЬ_СВОЮ_FIGMA_ССЫЛКУ)
+[Открыть проект в Figma](https://www.figma.com/design/hNIxUyBNp8ZB2LGG3GLEAW/GadgetStore-UI-UX-Design?node-id=2-3&t=ckn0qTZSFcN4Ox76-1)
 
 ## Автор проекта
 
